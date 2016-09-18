@@ -5,10 +5,21 @@
  */
 package com.tuyenhm.agar.controller;
 
+import com.tuyenhm.agar.Game;
+import com.tuyenhm.agar.GameMath;
+import com.tuyenhm.agar.Sprite;
+
 /**
  *
  * @author tuyenhuynh
  */
-public class PlayerController {
+public class PlayerController extends Controller{
+    public PlayerController(Game game, Sprite sprite) {
+        super(game, sprite); 
+    }
     
+    public void update(long elapsedTime) {
+        int angle = GameMath.angle(sprite.getPosition(), game.mousePosition());
+        sprite.setDirection(angle);
+    }
 }
