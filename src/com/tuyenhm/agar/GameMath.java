@@ -42,4 +42,22 @@ public class GameMath {
         return new Point(newX, newY);
     }
     
+    public static Point getCenter(Obstacle obstacle) {
+        Point position = obstacle.getPosition();
+        int radius = (int)(obstacle.getSize()/2); 
+        return new Point(position.x + radius, position.y + radius);
+    }
+    
+    public static Point getCenter(Agar agar) {
+        Point position = agar.getPosition();
+        int radius = (int)(agar.getSize()/2); 
+        return new Point(position.x + radius, position.y + radius);
+    }
+    
+    public static Point getCenter(Sprite sprite) {
+        Point position = sprite.getPosition();
+        int radius = (int)(sprite.getSize()/2); 
+        return new Point(position.x + radius, position.y + radius);
+    }
+    
 }

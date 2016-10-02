@@ -20,6 +20,10 @@ public class AIController extends Controller{
     
     static final int MAX_DISTANCE = 240; 
     
+    /**
+     *
+     * @author tuyenhuynh
+     */
     public AIController(Game game, Sprite bot, Sprite playerSprite) {
         super(game, bot);
         this.playerSprite = playerSprite; 
@@ -40,6 +44,5 @@ public class AIController extends Controller{
         }
         
     }
-    
     
 }
