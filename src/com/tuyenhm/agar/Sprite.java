@@ -7,6 +7,7 @@ package com.tuyenhm.agar;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -32,18 +33,40 @@ public class Sprite extends com.golden.gamedev.object.Sprite{
     
     private Graphics2D g2d; 
     
+    private int victimCount = 0;
     
+    private boolean isBot;
     
-    public Sprite(int size) {
+    public Sprite(int size, boolean isBot) {
         this.size = size; 
+        this.isBot = isBot; 
     }
-
+    
+    public boolean isBot() {
+        return this.isBot;
+    }
+    
+    public void eat(){
+        this.setSize(this.getSize() + 5);
+        victimCount +=  1;
+    }
+    
+    public void eat(int bonus){
+        this.setSize(this.getSize() + bonus*5);
+        victimCount +=  bonus;
+    }
+    
+    public int getVictimCount(){
+        return victimCount;
+    }
+    
     public int getSize() {
         return size;
     }
 
     public void setSize(int size) {
         this.size = size;
+        repaint();
     }
     
     private void repaint(){
@@ -58,6 +81,9 @@ public class Sprite extends com.golden.gamedev.object.Sprite{
             g2d.setColor(color.darker());
             g2d.setStroke(new BasicStroke(2));
             g2d.drawOval(0, 0, size  , size);
+            g2d.setFont(new Font("Arial", Font.BOLD, 30));
+            g2d.setColor(Color.white);
+            //g2d.drawString("" + victimCount, size/2 -10, size/2 +10 );
             
             this.setImage(bimage);
         }
@@ -103,7 +129,6 @@ public class Sprite extends com.golden.gamedev.object.Sprite{
         if(collision) {
             long currentMoment = System.currentTimeMillis();
             long delta = currentMoment - collisionMoment;
-            logger.info("Delta: " + delta); 
             if(delta > 500){
                 collision = false;
             }
@@ -119,7 +144,6 @@ public class Sprite extends com.golden.gamedev.object.Sprite{
         this.collision  = collision; 
         if(collision){
             collisionMoment = System.currentTimeMillis();
-            
         }
     }
     

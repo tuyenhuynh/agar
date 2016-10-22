@@ -5,7 +5,9 @@
  */
 package com.tuyenhm.agar;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
@@ -47,7 +49,22 @@ public class Obstacle extends com.golden.gamedev.object.Sprite{
     }
     
     private void repaint() {
-        
+        if(color != null && icon != null) {
+            BufferedImage bimage = new BufferedImage(this.size, 
+                    this.size, 
+                    BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = bimage.createGraphics(); 
+            g2d.setColor(color);
+            g2d.fillOval(0, 0, size, size);
+     
+            g2d.setColor(color.darker());
+            g2d.setStroke(new BasicStroke(2));
+            g2d.drawOval(0, 0, size  , size);
+            
+            g2d.drawImage(icon, 0, 0,null);
+            
+            this.setImage(bimage);
+        }
     }
     
     public void setIcon(BufferedImage image) {

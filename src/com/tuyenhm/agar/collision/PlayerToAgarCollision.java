@@ -34,7 +34,7 @@ public class PlayerToAgarCollision extends BasicCollisionGroup{
         Point c2 = new Point(p2.x + (int)(playerSprite.getSize()/2), p2.y +(int)(playerSprite.getSize()/2));
 
         if(GameMath.distance(c1, c2) < playerSprite.getSize()/2) {
-            //logger.info("Collision between player and agar");
+            playerSprite.eat();
             agar.setActive(false);
         }
     }

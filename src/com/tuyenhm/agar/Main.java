@@ -6,7 +6,6 @@
 package com.tuyenhm.agar;
 
 import com.golden.gamedev.GameLoader;
-import java.awt.Dimension;
 
 /**
  *
@@ -15,9 +14,9 @@ import java.awt.Dimension;
 public class Main {
     
     public static void main(String[] args) {
-        Game game = new Game(); 
+        AgarGame game = new AgarGame(); 
         GameLoader gameLoader = new GameLoader();
-        gameLoader.setup(game, game.dimensions(), false);
+        gameLoader.setup(game, Game.dimensions(), false);
         gameLoader.start();
     }
     

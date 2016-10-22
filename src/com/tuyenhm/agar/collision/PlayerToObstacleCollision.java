@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * @author tuyenhuynh
  */
 public class PlayerToObstacleCollision extends BasicCollisionGroup{
-    private static final Logger logger = Logger.getLogger(PlayerToObstacleCollision.class.getName());
+    private static final Logger logger = Logger.getLogger(PlayerToPlayerCollision.class.getName());
 
     @Override
     public void collided(Sprite playerSprite, Sprite obstacle) {
@@ -24,5 +24,4 @@ public class PlayerToObstacleCollision extends BasicCollisionGroup{
         playerSprite.setSpeed(-sprite.getHorizontalSpeed(), -sprite.getVerticalSpeed());
         
     }
-    
 }
