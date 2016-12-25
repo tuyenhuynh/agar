@@ -61,7 +61,7 @@ public class Obstacle extends com.golden.gamedev.object.Sprite{
             g2d.setStroke(new BasicStroke(2));
             g2d.drawOval(0, 0, size  , size);
             
-            g2d.drawImage(icon, 0, 0,null);
+            g2d.drawImage(icon, 0, 0, size, size, null);
             
             this.setImage(bimage);
         }

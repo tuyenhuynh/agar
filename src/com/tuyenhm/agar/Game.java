@@ -330,11 +330,10 @@ public class Game extends com.golden.gamedev.GameObject{
         return agar;
     }
     
+    
     private void generateObstacle(Point position) {
-
         try{
-            
-            BufferedImage obstacleImage = ImageIO.read(new File("resources/black-stone.png"));
+            BufferedImage obstacleImage = ImageIO.read(new File("resources/danger.png"));
             Obstacle obstacle = new Obstacle(OBSTACLE_SIZE); 
             obstacleList.add(obstacle);
 
@@ -342,8 +341,7 @@ public class Game extends com.golden.gamedev.GameObject{
             obstacle.setIcon(obstacleImage);
             obstacle.setPosition(position);
             obstacle.setBackground(background);
-            obstacleGroup.add(0, obstacle);
-            
+            obstacleGroup.add(0, obstacle);            
         }catch(IOException ex) {
             ex.printStackTrace();
         }

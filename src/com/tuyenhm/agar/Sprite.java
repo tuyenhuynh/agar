@@ -74,18 +74,23 @@ public class Sprite extends com.golden.gamedev.object.Sprite{
             BufferedImage bimage = new BufferedImage(this.size, 
                     this.size, 
                     BufferedImage.TYPE_INT_ARGB);
+            
+            this.setImage(bimage);
             g2d = bimage.createGraphics(); 
             g2d.setColor(color);
             g2d.fillOval(0, 0, size, size);
-     
+                
             g2d.setColor(color.darker());
             g2d.setStroke(new BasicStroke(2));
             g2d.drawOval(0, 0, size  , size);
             g2d.setFont(new Font("Arial", Font.BOLD, 30));
             g2d.setColor(Color.white);
-            //g2d.drawString("" + victimCount, size/2 -10, size/2 +10 );
+            int iconHeight = icon.getHeight();
+            int iconWidth  = icon.getWidth();
+            int h_size = iconHeight + size;
             
-            this.setImage(bimage);
+            g2d.drawImage(icon, size/2 - iconWidth/2, size/2 - iconHeight/2, null);
+            
         }
     }
     
