@@ -53,6 +53,8 @@ public class Game extends com.golden.gamedev.GameObject{
     
     private static final int OBSTACLE_COUNT =  30; 
     
+    private static final int BOT_COUNT = 10;
+    
     private Color[] colors = new Color[]{Color.BLUE, Color.GREEN, Color.GRAY, 
         Color.CYAN, Color.ORANGE, Color.PINK, Color.YELLOW, Color.MAGENTA, 
         Color.WHITE}; 
@@ -105,7 +107,7 @@ public class Game extends com.golden.gamedev.GameObject{
             
             //generate AI bots
             Random r = new Random();
-            for(int i = 0; i < 3; i++)
+            for(int i = 0; i < BOT_COUNT; i++)
             {
                 boolean added = true; 
                 do {
