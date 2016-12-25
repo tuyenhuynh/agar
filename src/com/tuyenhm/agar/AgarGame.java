@@ -19,15 +19,7 @@ public class AgarGame extends GameEngine{
      * @return GameObject based on GameID
      */
     public GameObject getGame(int GameID) {
-        switch (GameID) {
-            case 0:
-                // game scene
-                return new Game(this);
-            case 1: 
-                // finish scene
-                return new GameFinishScreen(this);
-       }
-       return null;
+        return new Game(this);
     }
 
 }

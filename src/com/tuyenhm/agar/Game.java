@@ -6,7 +6,6 @@
 package com.tuyenhm.agar;
 
 import com.golden.gamedev.GameEngine;
-import com.tuyenhm.agar.collision.PlayerToPlayerCollision;
 import com.golden.gamedev.object.SpriteGroup;
 import com.golden.gamedev.object.Timer;
 import com.golden.gamedev.object.background.ImageBackground;
@@ -86,7 +85,6 @@ public class Game extends com.golden.gamedev.GameObject{
     
     private PlayerToAgarCollision playerAgarCm;
     private PlayerToObstacleCollision playerObstacleCm; 
-    private PlayerToPlayerCollision playerPlayerCm; 
     
     private final List<Sprite> spriteList = new ArrayList<>(); 
     
@@ -109,7 +107,7 @@ public class Game extends com.golden.gamedev.GameObject{
             BufferedImage botImage = ImageIO.read(new File("resources/PRIMITIVE_ANIMAL.png"));
             
             // create player object
-            playerSprite = new Sprite(100, false); 
+            playerSprite = new Sprite(100); 
             playerSprite.setSpeed(0.1);
             playerSprite.setColor(Color.RED);
             playerSprite.setIcon(playerImage);
@@ -171,32 +169,10 @@ public class Game extends com.golden.gamedev.GameObject{
             
             playerAgarCm = new PlayerToAgarCollision(); 
             playerAgarCm.setCollisionGroup(spriteGroup, agarGroup);
-            playerPlayerCm = new PlayerToPlayerCollision(); 
-            playerPlayerCm.setCollisionGroup(spriteGroup, spriteGroup);
-            playerPlayerCm.addCollisionListener(new CollisionListener(){
-                @Override
-                public void collided() {
-                    
-                    boolean added = true; 
-                    do {
-                        Point point = new Point(random.nextInt(TOTAL_WIDTH - 200), random.nextInt(TOTAL_HEIGHT -200)); 
-                        added = addNewBot(botImage, point);    
-                    } while (!added); 
-                    
-                }
-                
-                @Override
-                public void gameFinished() {
-                    parent.nextGameID = 1;
-                    finish();
-                }
-            });
             playerObstacleCm = new PlayerToObstacleCollision();
             playerObstacleCm.setCollisionGroup(spriteGroup, obstacleGroup);
             
-            
             playerObstacleCm.pixelPerfectCollision = true; 
-            playerPlayerCm.pixelPerfectCollision = true; 
             
         }catch(IOException ex ){
             ex.printStackTrace();
@@ -251,7 +227,7 @@ public class Game extends com.golden.gamedev.GameObject{
      */
     private boolean addNewBot(BufferedImage botImage, Point position){
         // create new bot object
-        Sprite botSprite = new Sprite(botImage.getHeight(), true);
+        Sprite botSprite = new Sprite(botImage.getHeight());
         // set bot position
         botSprite.setPosition(position);
         // check if new bot is overlapped with other sprites
@@ -295,7 +271,6 @@ public class Game extends com.golden.gamedev.GameObject{
         // check collisions
         playerAgarCm.checkCollision();
         playerObstacleCm.checkCollision();
-        playerPlayerCm.checkCollision();
         // update all game objects
         for (Controller c : controllers) {
             c.update(elapsedTime);
@@ -331,9 +306,7 @@ public class Game extends com.golden.gamedev.GameObject{
             }
         }
     }
-    
-    private static final Logger logger  = Logger.getLogger(Game.class.getName());
-    
+   
     /**
      * render
      * @param gd graphics
@@ -347,9 +320,6 @@ public class Game extends com.golden.gamedev.GameObject{
         if(playerSprite != null){
             background.setToCenter(playerSprite);
         }
-        gd.setFont(new Font("Arial", Font.BOLD, 30));
-        gd.setColor(Color.white);
-        gd.drawString("" + playerSprite.getVictimCount(), 20,40 );
     }
     
     /**

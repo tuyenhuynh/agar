@@ -18,9 +18,7 @@ import java.util.logging.Logger;
  * @author tuyenhuynh
  * Bridge between GTGE and interfaces of model and view
  */
-public class Sprite extends com.golden.gamedev.object.Sprite{
-    private static final Logger logger = Logger.getLogger(Sprite.class.getName());
-    
+public class Sprite extends com.golden.gamedev.object.Sprite{ 
     private Color color = null; 
     
     private BufferedImage icon = null;
@@ -34,54 +32,16 @@ public class Sprite extends com.golden.gamedev.object.Sprite{
     private Graphics2D g2d; 
     
     private int victimCount = 0;
-    
-    private boolean isBot;
-    
+       
     
     /**
      * Sprite's constructor.
      * @param size - sprite's initial size
-     * @param isBot - isBot
      */
-    public Sprite(int size, boolean isBot) {
+    public Sprite(int size) {
         this.size = size; 
-        this.isBot = isBot; 
     }
-    
-    
-    /**
-     * Check whether sprite is bot.
-     * @return isBot 
-     */
-    public boolean isBot() {
-        return this.isBot;
-    }
-    
-    /**
-     * Sprite eat agar.
-     */
-    public void eat(){
-        this.setSize(this.getSize() + 5);
-        victimCount +=  1;
-    }
-    
-    /**
-     * Sprite eat another sprite.
-     * @param bonus - size total number victim of another sprite
-     */
-    public void eat(int bonus){
-        this.setSize(this.getSize() + bonus*5);
-        victimCount +=  bonus;
-    }
-    
-    /**
-     * Get number of victim
-     * @return number of victim
-     */
-    public int getVictimCount(){
-        return victimCount;
-    }
-    
+       
     /**
      * Get sprite's size
      * @return sprite's size
