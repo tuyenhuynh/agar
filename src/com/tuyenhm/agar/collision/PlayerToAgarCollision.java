@@ -40,6 +40,7 @@ public class PlayerToAgarCollision extends BasicCollisionGroup{
 
         // check if player eating agar
         if(GameMath.distance(c1, c2) < playerSprite.getSize()/2) {
+            playerSprite.eat();
             agar.setActive(false);
         }
     }

@@ -40,8 +40,24 @@ public class Sprite extends com.golden.gamedev.object.Sprite{
      */
     public Sprite(int size) {
         this.size = size; 
+    }    
+    
+    /**
+     * Sprite eat agar.
+     */
+    public void eat(){
+        this.setSize(this.getSize() + 5);
+        victimCount +=  1;
     }
-       
+    
+    /**
+     * Get number of victim
+     * @return number of victim
+     */
+    public int getVictimCount(){
+        return victimCount;
+    }    
+    
     /**
      * Get sprite's size
      * @return sprite's size

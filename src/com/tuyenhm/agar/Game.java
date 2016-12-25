@@ -320,6 +320,9 @@ public class Game extends com.golden.gamedev.GameObject{
         if(playerSprite != null){
             background.setToCenter(playerSprite);
         }
+        gd.setFont(new Font("Arial", Font.BOLD, 30));
+        gd.setColor(Color.white);
+        gd.drawString("" + playerSprite.getVictimCount(), 20,40 );        
     }
     
     /**
