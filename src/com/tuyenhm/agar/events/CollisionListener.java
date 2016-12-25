@@ -10,6 +10,12 @@ package com.tuyenhm.agar.events;
  * @author tuyenhuynh
  */
 public interface CollisionListener {
+    /**
+     * Sprite collied with another.
+     */
     public void collided(); 
+    /**
+     * Game finished.
+     */
     public void gameFinished(); 
 }
