@@ -16,11 +16,20 @@ public class Controller {
     protected Sprite sprite; 
     protected Game game; 
     
+    /**
+     * Controller's constructor
+     * @param game - Game, which contains controller
+     * @param sprite - sprite, managed by controller
+     */
     public Controller(Game game, Sprite sprite) {
         this.game = game; 
         this.sprite = sprite; 
     }
     
+    /**
+     * Update Controller status
+     * @param elapsedTime - elapsed time
+     */
     public void update(long elapsedTime){
         if(sprite.getX() <= 0 && sprite.getHorizontalSpeed() < 0) {
             sprite.setHorizontalSpeed(0);

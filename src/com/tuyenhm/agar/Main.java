@@ -8,8 +8,8 @@ package com.tuyenhm.agar;
 import com.golden.gamedev.GameLoader;
 
 /**
- *
  * @author tuyenhuynh
+ * Main class of game.
  */
 public class Main {
     

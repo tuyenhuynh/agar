@@ -21,8 +21,9 @@ public class AIController extends Controller{
     static final int MAX_DISTANCE = 240; 
     
     /**
-     *
-     * @author tuyenhuynh
+     * AIController's constructor
+     * @param game - Game, which contains controller
+     * @param sprite - sprite, managed by controller
      */
     public AIController(Game game, Sprite bot, Sprite playerSprite) {
         super(game, bot);
@@ -31,18 +32,18 @@ public class AIController extends Controller{
         bot.setDirection(angle);
     }
     
+    /**
+     * Update AIController status
+     * @param elapsedTime - elapsed time
+     */
     @Override
     public void update(long elapsedTime) {
         Point playerPos = playerSprite.getPosition(); 
         Point spritePos = sprite.getPosition(); 
-        
         double distance = GameMath.distance(spritePos, playerPos); 
-        
         if(distance > AIController.MAX_DISTANCE ) {
             int angle = GameMath.angle(sprite.getPosition(), playerSprite.getPosition());
             sprite.setDirection(angle);
         }
-        
     }
-    
 }
