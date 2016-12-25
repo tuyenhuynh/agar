@@ -9,16 +9,23 @@ import com.golden.gamedev.GameEngine;
 import com.golden.gamedev.GameObject;
 
 /**
- *
+ * Class game agar
  * @author tuyenhuynh
  */
 public class AgarGame extends GameEngine{
+    /**
+     * Get GameObject based on GameID
+     * @param GameID gameID
+     * @return GameObject based on GameID
+     */
     public GameObject getGame(int GameID) {
-       switch (GameID) {
-          case 0: 
-             return new Game(this);
-          case 1: 
-              return new GameFinishScreen(this);
+        switch (GameID) {
+            case 0:
+                // game scene
+                return new Game(this);
+            case 1: 
+                // finish scene
+                return new GameFinishScreen(this);
        }
        return null;
     }

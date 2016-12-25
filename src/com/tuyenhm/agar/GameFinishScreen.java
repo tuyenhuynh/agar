@@ -16,26 +16,40 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- *
+ * Game finish scene
  * @author tuyenhuynh
  */
 public class GameFinishScreen extends GameObject { // change Game to GameObject
-
     
+    /**
+     * background
+     */
     private ImageBackground background; 
     
+    /**
+     * Constructor
+     * @param parent game engine
+     */
     public GameFinishScreen(GameEngine parent) {
        super(parent);
     }
 
+    /**
+     * Update scene
+     * @param elapsedTime elapsed time
+     */
     public void update(long elapsedTime) {
-       background.update(elapsedTime);
+        background.update(elapsedTime);
+        // if click then go to game scene
         if (click()) {
           parent.nextGameID = 0;
           finish();
        }
     }
 
+    /**
+     * Init resources
+     */
     @Override
     public void initResources() {
         try{
@@ -46,6 +60,10 @@ public class GameFinishScreen extends GameObject { // change Game to GameObject
         }
     }
 
+    /**
+     * Render screen
+     * @param gd graphics 2D
+     */
     @Override
     public void render(Graphics2D gd) {
         background.render(gd);

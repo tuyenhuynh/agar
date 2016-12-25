@@ -31,12 +31,17 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
- *
+ * Game scene
  * @author tuyenhuynh
  */
 public class Game extends com.golden.gamedev.GameObject{
-
+    /**
+     * Map width
+     */
     public static final int TOTAL_WIDTH = 6000; 
+    /**
+     * Map height
+     */
     public static final int TOTAL_HEIGHT = 6000;
     
     private static final int MAX_AGAR_COUNT = 500; 
@@ -85,25 +90,37 @@ public class Game extends com.golden.gamedev.GameObject{
     
     private final List<Sprite> spriteList = new ArrayList<>(); 
     
+    /**
+     * Constructor
+     * @param gameEngine 
+     */
     public Game(GameEngine gameEngine) {
         super(gameEngine); 
     }
     
+    /**
+     * Init Resources
+     */
     @Override
     public void initResources() {
         try{
-            
+            // set Images from resource files
             BufferedImage playerImage = ImageIO.read(new File("resources/PRIMITIVE_PLANT.png"));
             BufferedImage botImage = ImageIO.read(new File("resources/PRIMITIVE_ANIMAL.png"));
             
+            // create player object
             playerSprite = new Sprite(100, false); 
             playerSprite.setSpeed(0.1);
             playerSprite.setColor(Color.RED);
             playerSprite.setIcon(playerImage);
             playerSprite.setPosition(new Point(320, 240));
-            spriteGroup.add(playerSprite);
             
+            // add player to sprite list
+            spriteGroup.add(playerSprite);
             spriteList.add(playerSprite); 
+            
+            // add player controller
+            controllers.add(new PlayerController(this, playerSprite));
             
             //generate AI bots
             Random r = new Random();
@@ -116,22 +133,25 @@ public class Game extends com.golden.gamedev.GameObject{
                 } while (!added); 
             }
             
+            // set game background
             background = new ImageBackground(ImageIO.read(new File("resources/background.jpg")));
             background.setClip(0, 0, this.dimensions().width, this.dimensions().height);
             
+            // set background for object groups
             agarGroup.setBackground(background);
             spriteGroup.setBackground(background);
             obstacleGroup.setBackground(background);
             
+            // generate agars
             for(int i = 0 ; i < INIT_AGAR_COUNT ; ++i) {
                 Agar agar = generateAgar(new Point(50 + random.nextInt(800), 50 + random.nextInt(600)));
             }
             
-            controllers.add(new PlayerController(this, playerSprite));
-            
+            // generate obstacles in first scene
             Point p = new Point(random.nextInt(700), random.nextInt(500)); 
             boolean overlapped  = true; 
             do {
+                // check obstacle is overlapped with other objects if put it to Point p
                 int gap = 20;
                 p = new Point(random.nextInt(700), random.nextInt(500)); 
                 for(Sprite sprite: spriteList) {
@@ -139,9 +159,11 @@ public class Game extends com.golden.gamedev.GameObject{
                     overlapped = p.x >= position.x - sprite.getSize() - gap && p.x <= position.x + gap + sprite.getSize() 
                     ||  p.y >= position.y - sprite.getSize() -gap && p.y <= position.y + sprite.getSize() + gap;
                 }
-            }while(overlapped);
-            generateObstacle( p);
+            } while(overlapped);
+            // generate obstacle to point p
+            generateObstacle(p);
             
+            // generate obstacle in full map
             for(int i = 0 ; i < OBSTACLE_COUNT; ++i) {
                 Point point = new Point(random.nextInt(TOTAL_WIDTH - 200), random.nextInt(TOTAL_HEIGHT -200)); 
                 generateObstacle(point); 
@@ -181,6 +203,12 @@ public class Game extends com.golden.gamedev.GameObject{
         }
     }
     
+    /**
+     * Check if 2 sprites is overlapped
+     * @param s1 first sprite
+     * @param s2 second spite
+     * @return true of s1 overlaps s2
+     */
     private boolean isOverlapped(com.golden.gamedev.object.Sprite s1, com.golden.gamedev.object.Sprite s2) {
         int gap = 20;
         Point p1 = null, p2 = null; 
@@ -215,21 +243,31 @@ public class Game extends com.golden.gamedev.GameObject{
         return overlapped;        
     }
     
+    /**
+     * Add new bot
+     * @param botImage bot image
+     * @param position position
+     * @return true if generate successfully
+     */
     private boolean addNewBot(BufferedImage botImage, Point position){
+        // create new bot object
         Sprite botSprite = new Sprite(botImage.getHeight(), true);
+        // set bot position
         botSprite.setPosition(position);
+        // check if new bot is overlapped with other sprites
         for(Sprite sprite : spriteList){
             if(sprite.isActive() && isOverlapped(sprite, botSprite)){
                 return false; 
             }
         }
         
+        // check if new bot overlaps with obstacles
         for(Obstacle obstacle: obstacleList){
             if(isOverlapped( obstacle, botSprite)){
                 return false; 
             }
         }
-        
+        // check if new bot overlaps with agars
         for (Agar agar : agarList){
             if(agar.isActive() && isOverlapped(agar, botSprite)){
                 return false; 
@@ -240,6 +278,7 @@ public class Game extends com.golden.gamedev.GameObject{
         botSprite.setColor(Color.GREEN);
         botSprite.setIcon(botImage);
         spriteGroup.add(botSprite);
+        // add bot controller
         controllers.add(new AIController(this, botSprite, playerSprite));
         spriteList.add(botSprite); 
         
@@ -247,28 +286,36 @@ public class Game extends com.golden.gamedev.GameObject{
         
     }
 
+    /**
+     * update scene
+     * @param elapsedTime elapsed time
+     */
     @Override
     public void update(long elapsedTime) {
+        // check collisions
         playerAgarCm.checkCollision();
         playerObstacleCm.checkCollision();
         playerPlayerCm.checkCollision();
+        // update all game objects
         for (Controller c : controllers) {
             c.update(elapsedTime);
         }
-
+        // update group
         agarGroup.update(elapsedTime);
         spriteGroup.update(elapsedTime);
         obstacleGroup.update(elapsedTime);
-        
+        // update backgroud
         background.update(elapsedTime);
         
         if(timer.action(elapsedTime)){
+            // check if number of agars on game is less than max agar number
             if(agarList.size() < MAX_AGAR_COUNT) { 
+                // random new agar position
                 int x = random.nextInt(TOTAL_WIDTH - AGAR_SIZE), 
                     y = random.nextInt(TOTAL_HEIGHT - AGAR_SIZE);
                 
                 Point point = playerSprite.getPosition();
-                
+                // if new point is overlapped with player position
                 if(x >= point.x && x <=point.x + playerSprite.getSize() && y >= point.y && y <= playerSprite.getSize()) {
                     x += playerSprite.getSize() + 100;
                     y += playerSprite.getSize() + 100; 
@@ -279,6 +326,7 @@ public class Game extends com.golden.gamedev.GameObject{
                 if(y >= TOTAL_HEIGHT){
                     y -= 200; 
                 }
+                // generate agar to postion (x, y)
                 generateAgar(new Point(x, y)); 
             }
         }
@@ -286,6 +334,10 @@ public class Game extends com.golden.gamedev.GameObject{
     
     private static final Logger logger  = Logger.getLogger(Game.class.getName());
     
+    /**
+     * render
+     * @param gd graphics
+     */
     @Override
     public void render(Graphics2D gd) {
         background.render(gd);
@@ -300,18 +352,30 @@ public class Game extends com.golden.gamedev.GameObject{
         gd.drawString("" + playerSprite.getVictimCount(), 20,40 );
     }
     
+    /**
+     * get current mouse position
+     * @return mouse position
+     */
     public Point mousePosition(){
         Point p = new Point(this.getMouseX(), this.getMouseY());
         p.x += background.getX();
         p.y += background.getY(); 
-        
         return p;
     }
     
+    /**
+     * get game dimension
+     * @return dimension
+     */
     public static Dimension dimensions(){
         return new Dimension(800, 600);
     }
     
+    /**
+     * generate agar to position
+     * @param position position
+     * @return generated agar
+     */
     private Agar generateAgar(Point position) {
         Agar agar= new Agar(AGAR_SIZE); 
         Color color = colors[random.nextInt(colors.length - 1)]; 
@@ -330,9 +394,13 @@ public class Game extends com.golden.gamedev.GameObject{
         return agar;
     }
     
-    
+    /**
+     * generate obstacle to position
+     * @param position 
+     */
     private void generateObstacle(Point position) {
         try{
+            // get obstacle image
             BufferedImage obstacleImage = ImageIO.read(new File("resources/danger.png"));
             Obstacle obstacle = new Obstacle(OBSTACLE_SIZE); 
             obstacleList.add(obstacle);

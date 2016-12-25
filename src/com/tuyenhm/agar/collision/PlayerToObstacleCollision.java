@@ -11,17 +11,20 @@ import com.tuyenhm.agar.GameMath;
 import java.util.logging.Logger;
 
 /**
- *
+ * Player to obstacle collision
  * @author tuyenhuynh
  */
 public class PlayerToObstacleCollision extends BasicCollisionGroup{
-    private static final Logger logger = Logger.getLogger(PlayerToPlayerCollision.class.getName());
-
+    /**
+     * Actions when collided
+     * @param playerSprite Player
+     * @param obstacle Obstacle
+     */
     @Override
     public void collided(Sprite playerSprite, Sprite obstacle) {
         com.tuyenhm.agar.Sprite sprite = (com.tuyenhm.agar.Sprite)(playerSprite); 
         sprite.setCollision(true);
+        // set player speed backward
         playerSprite.setSpeed(-sprite.getHorizontalSpeed(), -sprite.getVerticalSpeed());
-        
     }
 }
